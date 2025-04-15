@@ -115,7 +115,7 @@ pip install huggingface_hub
 huggingface-cli download IndexTeam/Index-TTS ^
   bigvgan_discriminator.pth bigvgan_generator.pth ^
   bpe.model dvae.pth gpt.pth unigram_12000.vocab ^
-  --local-dir checkpoints
+    --local-dir .ts
 
 
 📌 如果下载缓慢，可尝试设置 Hugging Face 镜像（仅当前终端有效）：
