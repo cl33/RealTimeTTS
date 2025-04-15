@@ -204,7 +204,7 @@ class IndexTTS:
             # print(text_len)
 
             with torch.no_grad():
-                with torch.amp.autocast(self.device, enabled=self.dtype is not None, dtype=self.dtype):
+                with torch.amp.autocast(device_type="cuda", enabled=self.dtype is not None, dtype=self.dtype):
                     codes = self.gpt.inference_speech(auto_conditioning, text_tokens,
                                                         cond_mel_lengths=torch.tensor([auto_conditioning.shape[-1]],
                                                                                       device=text_tokens.device),
@@ -231,7 +231,7 @@ class IndexTTS:
                 print(f"code len: {code_lens}")
 
                 # latent, text_lens_out, code_lens_out = \
-                with torch.amp.autocast(self.device, enabled=self.dtype is not None, dtype=self.dtype):
+                with torch.amp.autocast(device_type="cuda", enabled=self.dtype is not None, dtype=self.dtype):
                     latent = \
                         self.gpt(auto_conditioning, text_tokens,
                                     torch.tensor([text_tokens.shape[-1]], device=text_tokens.device), codes,

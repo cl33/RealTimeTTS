@@ -2,42 +2,6 @@
 import traceback
 import re
 
-# 数字转中文函数（支持整数、小数、年份、序号、金额）
-def convert_digit_to_chinese(text):
-    number_map = {
-        "0": "零", "1": "一", "2": "二", "3": "三", "4": "四",
-        "5": "五", "6": "六", "7": "七", "8": "八", "9": "九"
-    }
-    def replace(match):
-        number = match.group()
-        if re.match(r'20\d{2}', number):  # 年份
-            return ''.join(number_map.get(ch, ch) for ch in number)
-        elif re.match(r'\d+\.\d+', number):  # 小数
-            int_part, dec_part = number.split('.')
-            int_ch = ''.join(number_map.get(ch, ch) for ch in int_part)
-            dec_ch = ''.join(number_map.get(ch, ch) for ch in dec_part)
-            return int_ch + "点" + dec_ch
-        elif re.match(r'^\d{2,}$', number):
-            if len(number) == 2 and number[0] == "1":  # 如10, 11, 12
-                return "十" + (number_map[number[1]] if number[1] != "0" else "")
-            elif len(number) == 2:
-                return number_map[number[0]] + "十" + (number_map[number[1]] if number[1] != "0" else "")
-            units = ["", "十", "百", "千"]
-            result = ""
-            digits = list(number)
-            for i, d in enumerate(digits[::-1]):
-                n = number_map.get(d, d)
-                if d != "0":
-                    result = n + units[i] + result
-                else:
-                    if not result.startswith("零"):
-                        result = "零" + result
-            return result.strip("零")
-        else:
-            return ''.join(number_map.get(ch, ch) for ch in number)
-
-    return re.sub(r'\d+(\.\d+)?', replace, text)
-
 class TextNormalizer:
     def __init__(self):
         self.zh_normalizer = None
@@ -58,7 +22,7 @@ class TextNormalizer:
             "$": ".",
             "“": "'",
             "”": "'",
-            "\"": "'",
+            '"': "'",
             "‘": "'",
             "’": "'",
             "（": "'",
@@ -118,8 +82,6 @@ class TextNormalizer:
         if not self.zh_normalizer:
             print("❌ zh_normalizer 未初始化")
             return ""
-
-        text = convert_digit_to_chinese(text)
         replaced_text, pinyin_list = self.save_pinyin_tones(text.rstrip())
 
         try:
