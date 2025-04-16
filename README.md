@@ -110,12 +110,13 @@ pip install -r requirements.txt
 ```bash
 pip install huggingface_hub
 
-然后运行以下命令（注意使用 ^ 表示多行换行）：
+然后运行以下命令（Windows 下使用 ^ 表示换行）：
 
 huggingface-cli download IndexTeam/Index-TTS ^
   bigvgan_discriminator.pth bigvgan_generator.pth ^
   bpe.model dvae.pth gpt.pth unigram_12000.vocab ^
-    --local-dir .ts
+  --local-dir checkpoints
+
 
 
 📌 如果下载缓慢，可尝试设置 Hugging Face 镜像（仅当前终端有效）：
