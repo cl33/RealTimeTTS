@@ -242,6 +242,8 @@ class IndexTTS:
                     wav, _ = self.bigvgan(latent.transpose(1, 2), auto_conditioning.transpose(1, 2))
                     wav = wav.squeeze(1).cpu()
 
+                device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+                wav = wav.to(device)   #把wav 移动到 Gpu 加速
                 wav = torch.clip(32767 * wav, -32767.0, 32767.0)
                 print(f"wav shape: {wav.shape}")
                 # wavs.append(wav[:, :-512])
@@ -254,7 +256,11 @@ class IndexTTS:
         print(f">> inference done. time: {minutes:02d}:{seconds:02d}.{milliseconds:03d}")
         print(">> saving wav file")
         wav = torch.cat(wavs, dim=1)
-        torchaudio.save(output_path, wav.type(torch.int16), sampling_rate)
+        torchaudio.save(
+            output_path,
+            wav.detach().cpu().type(torch.int16),  # 移动到CPU并转换类型 保存，因为nump
+            sampling_rate
+        )
         print(">> wav file saved to:", output_path)
 
 
