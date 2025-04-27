@@ -198,4 +198,15 @@ tts.infer(voice, text, output_path)
 > 由 [王知风](https://github.com/wwzhifeng) 维护，适配Windows系统。
 
 ---
+RealTimeTTS  请移步 https://github.com/KoljaB/RealtimeTTS
+本项目运行方式：
+1、安装好IndexTTs 依赖
+2、安装好ollama + deepseek 参考：https://ollama.com/
+2、pip install RealtimeTTS
+3、pip install torch==2.5.1+cu121 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cu121 (需要cuda12.x 以上的版本)
+4、python test.py   
+ps：前提是按照上面 indexTTs 说明创建好conda环境
+
+![1745748676207](https://github.com/user-attachments/assets/0685a86a-2448-4e38-9de0-702db247c589)
+
 
